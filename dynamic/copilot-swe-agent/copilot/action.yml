@@ -1,0 +1,20 @@
+name: Copilot cloud agent (local)
+description: Start the Copilot cloud agent with configurable model and fallback.
+inputs:
+  model:
+    description: 'Primary model to use (e.g. gpt-5.3)'
+    required: false
+    default: 'gpt-5.3'
+  fallback-model:
+    description: 'Fallback model to use if primary is unavailable'
+    required: false
+    default: 'gpt-4o'
+runs:
+  using: 'composite'
+  steps:
+    - name: Start agent with fallback wrapper
+      shell: bash
+      run: |
+        # Make sure the wrapper script is executable
+        chmod +x ./start-agent-with-fallback.sh
+        ./start-agent-with-fallback.sh "${{ inputs.model }}" "${{ inputs.fallback-model }}"
